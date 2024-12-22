@@ -15,7 +15,7 @@ export default function Home() {
     {/* <div className="lg:mx-[20rem] mx-[9rem] lg:my-0 my-24">
       <Test />
     </div> */}
-    <div className="lg:mx-[20rem] mx-[9rem] lg:my-0 my-24">
+    {/* <div className="lg:mx-[20rem] mx-[9rem] lg:my-0 my-24">
       <LokasiBahanKimia />
     </div>
     <div className="lg:mx-[20rem] mx-[9rem] lg:my-0 my-24">
@@ -26,7 +26,7 @@ export default function Home() {
     </div>
     <div className="lg:mx-[55rem] mx-[9rem] lg:my-0 my-24">
       <DataPenerimaanPenggunaan />
-    </div>
+    </div> */}
     </>
   );
 }

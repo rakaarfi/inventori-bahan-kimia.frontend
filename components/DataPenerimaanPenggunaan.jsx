@@ -150,7 +150,7 @@ export default function DataPenerimaanPenggunaan() {
                                             onChange={(e) => handleInputChange(index, e)}
                                             className="form-select w-full"
                                         >
-                                            <option value="">Pilih</option>
+                                            <option value="" disabled selected>Pilih</option>
                                             <option value="Penerimaan">Penerimaan</option>
                                             <option value="Penggunaan">Penggunaan</option>
                                         </select>
@@ -171,7 +171,7 @@ export default function DataPenerimaanPenggunaan() {
                                             onChange={(e) => handleInputChange(index, e)}
                                             className="form-select w-full"
                                         >
-                                            <option value="">Pilih</option>
+                                            <option value="" disabled selected>Pilih</option>
                                             <option value="Gram">Gram</option>
                                             <option value="Kilogram">Kilogram</option>
                                             <option value="Kiloliter">Kiloliter</option>

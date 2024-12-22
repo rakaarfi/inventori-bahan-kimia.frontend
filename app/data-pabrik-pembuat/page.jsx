@@ -13,7 +13,7 @@ export default function page() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:8000/data_pabrik_pembuat/read_data_pabrik_pembuat");
+                const response = await axios.get("http://127.0.0.1:8000/data_pabrik_pembuat/read");
                 setData(response.data);
             }
             catch (error) {

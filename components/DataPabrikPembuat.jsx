@@ -37,7 +37,7 @@ export default function DataPabrikPembuat() {
         console.log("Payload:", payload);
 
         try {
-            await axios.post("http://127.0.0.1:8000/data_pabrik_pembuat/create_data_pabrik_pembuat", payload);
+            await axios.post("http://127.0.0.1:8000/data_pabrik_pembuat/create", payload);
             alert("Data submitted successfully!");
         } 
         catch (error) {

@@ -35,7 +35,7 @@ export default function LokasiBahanKimia() {
         console.log("Payload:", payload);
 
         try {
-            await axios.post("http://127.0.0.1:8000/lokasi_bahan_kimia/create_lokasi_bahan_kimia", payload);
+            await axios.post("http://127.0.0.1:8000/lokasi_bahan_kimia/create", payload);
             alert("Data submitted successfully!");
         } 
         catch (error) {

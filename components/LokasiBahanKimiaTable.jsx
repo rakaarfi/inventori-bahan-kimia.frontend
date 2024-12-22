@@ -1,57 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 
-export default function LokasiBahanKimiaTable() {
-    const [data, setData] = useState([]);
-    const [error, setError] = useState(null);
-
-    // Fetch data from the API
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get("http://127.0.0.1:8000/lokasi_bahan_kimia/read_lokasi_bahan_kimia");
-                setData(response.data);
-            }
-            catch (error) {
-                console.error("Error fetching data:", error.message);
-                setError(error.message);
-            }
-        };
-        fetchData();
-    }, []);
-
-    // Handle update
-    const handleUpdate = async (e, id) => {
-        e.preventDefault();
-
-        const formData = new FormData(e.target);
-        const updatedData = Object.fromEntries(formData.entries());
-
-        try {
-            const response = await axios.post(
-                `http://127.0.0.1:8000/lokasi_bahan_kimia/update/${id}`,
-                updatedData
-            );
-            alert("Data updated successfully!");
-            console.log(response.data); // Optional: Debugging backend response
-        } catch (err) {
-            alert("Error updating data: " + err.message);
-        }
-    };
-
-    // Handle delete
-    const handleDelete = async (id) => {
-        try {
-            await axios.post(`http://127.0.0.1:8000/lokasi_bahan_kimia/delete/${id}`);
-            alert("Data deleted successfully!");
-            setData((prevData) => prevData.filter((item) => item.id !== id));
-        } catch (err) {
-            alert("Error deleting data: " + err.message);
-        }
-    };
-
+export default function LokasiBahanKimiaTable( { data, error, onUpdate, onDelete, apiUrl } ) {
     return (
         <div className="container mx-auto p-4">
 
@@ -73,7 +24,7 @@ export default function LokasiBahanKimiaTable() {
                                     <td className="border-b border-t border-gray-300 px-4 py-2">{index + 1}</td>
                                     <td className="border-b border-t border-gray-300 px-4 py-2">
                                         <form
-                                            onSubmit={(e) => handleUpdate(e, item.id)}
+                                            onSubmit={(e) => onUpdate(e, item.id, apiUrl)}
                                             className="space-y-2 flex flex-col"
                                             id="update-lokasi"
                                         >
@@ -114,7 +65,7 @@ export default function LokasiBahanKimiaTable() {
                                             Edit
                                         </button>
                                         <button
-                                            onClick={() => handleDelete(item.id)}
+                                            onClick={() => onDelete(item.id, apiUrl)}
                                             className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
                                         >
                                             Delete

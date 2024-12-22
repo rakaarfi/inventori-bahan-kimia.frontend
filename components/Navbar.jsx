@@ -1,14 +1,12 @@
 import Link from 'next/link';
 
-
-
 export const Navbar = () => {
 
     const input_data = [
-        "Lokasi Bahan Kimia",
-        "Data Pabrik Pembuat",
-        "Data Bahan Kimia",
-        "Data Penerimaan Penggunaan",
+        { name: "Lokasi Bahan Kimia", link: "/lokasi-bahan-kimia/" },
+        { name: "Data Pabrik Pembuat", link: "/data-pabrik-pembuat/" },
+        { name: "Data Bahan Kimia", link: "/data-bahan-kimia/" },
+        { name: "Data Penerimaan Penggunaan", link: "/data-penerimaan-penggunaan/" },
     ]
 
     const preview_report = [
@@ -26,10 +24,10 @@ export const Navbar = () => {
                         {input_data.map((item) => {
                             return (
                                 <Link
-                                    key={item}
-                                    href={`#${item}`}
+                                    key={item.link}
+                                    href={item.link}
                                 >
-                                    {item}
+                                    {item.name}
                                 </Link>
                             );
                         })}

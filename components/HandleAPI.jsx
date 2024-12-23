@@ -28,16 +28,29 @@ export const handleDelete = async (id, url) => {
     }
 };
 
-export const fetchData = async ({ apiUrl, currentPage, search, setData, setCurrentPage, setTotalPages, setError }) => {
+export const fetchData = async ({ 
+    apiUrl, 
+    routeUrl, 
+    responseKey, 
+    currentPage, 
+    search, 
+    setData, 
+    setCurrentPage, 
+    setTotalPages, 
+    setError 
+}) => {
     try {
+        const url = `${apiUrl+routeUrl}`;
+
         const response = await axios.get(
-            `${apiUrl}/list_lokasi_bahan_kimia?page=${currentPage}&search=${search}`
+            `${url}/${responseKey}?page=${currentPage}&search=${search}`
         );
-        const { data, page, total_pages } = response.data.list_lokasi_bahan_kimia;
+        const { data, page, total_pages } = response.data[responseKey];
 
         setData(data);
         setCurrentPage(page);
-        setTotalPages(total_pages);
+        setTotalPages(total_pages);   
+        
     } catch (error) {
         console.error("Error fetching data:", error.message);
         setError(error.message);

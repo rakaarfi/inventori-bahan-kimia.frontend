@@ -23,7 +23,10 @@ export default function page() {
     const [currentPage, setCurrentPage] = useState(Number(queryPage));
     const [totalPages, setTotalPages] = useState(0);
     const [search, setSearch] = useState(querySearch);
-    const apiUrl = "http://127.0.0.1:8000/lokasi_bahan_kimia";
+    
+    const apiUrl = "http://127.0.0.1:8000/";
+    const routeUrl = "lokasi_bahan_kimia";
+    const responseKey = "list_lokasi_bahan_kimia";
 
     // Sinkronisasi query parameter ke state
     useEffect(() => {
@@ -35,6 +38,8 @@ export default function page() {
     useEffect(() => {
         fetchData({
             apiUrl,
+            routeUrl,
+            responseKey,
             currentPage,
             search,
             setData,
@@ -56,7 +61,11 @@ export default function page() {
                     <Link href="/lokasi-bahan-kimia/add" className="bg-blue-500 text-white px-4 py-2 rounded mx-10 mt-4">
                         Input Lokasi Bahan Kimia
                     </Link>
-                    <SearchQuery searchQuery={search} setSearchQuery={setSearch} />
+                    <SearchQuery
+                        searchQuery={search}
+                        setSearchQuery={setSearch}
+                        placeHolder={"Cari Lokasi Bahan Kimia"}
+                    />
                 </div>
                 <LokasiBahanKimiaTable
                     data={data}
@@ -64,6 +73,7 @@ export default function page() {
                     onUpdate={handleUpdate}
                     onDelete={handleDelete}
                     apiUrl={apiUrl}
+                    routeUrl={routeUrl}
                 />
                 <Pagination
                     currentPage={currentPage}

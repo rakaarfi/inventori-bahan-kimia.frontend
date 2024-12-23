@@ -9,7 +9,9 @@ export default function DataBahanKimiaTable({
     onUpdate,
     onDelete,
     apiUrl,
-    routeUrl }) {
+    routeUrl,
+    currentPage
+}) {
     return (
         <div className="container mx-auto p-4">
 
@@ -28,7 +30,9 @@ export default function DataBahanKimiaTable({
                         <tbody>
                             {data.map((item, index) => (
                                 <tr key={item.id}>
-                                    <td className="border-b border-t border-gray-300 px-4 py-2">{index + 1}</td>
+                                    <td className="border-b border-t border-gray-300 px-4 py-2">
+                                        {index + 1 + (currentPage - 1) * 10}
+                                    </td>
                                     <td className="border-b border-t border-gray-300 px-4 py-2">
                                         <form
                                             onSubmit={(e) => onUpdate(e, item.id, `${apiUrl}${routeUrl}`)}

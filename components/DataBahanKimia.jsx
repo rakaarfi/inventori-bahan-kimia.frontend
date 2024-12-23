@@ -16,7 +16,6 @@ export default function DataBahanKimia() {
     const [unit, setUnit] = useState("");
     const [description, setDescription] = useState("");
 
-
     const apiUrl = "http://127.0.0.1:8000";
 
     // Fetch data for locations and factories
@@ -77,7 +76,7 @@ export default function DataBahanKimia() {
                                         value={id_location}
                                         onChange={(e) => setIdLocation(e.target.value)}
                                     >
-                                        <option disabled defaultValue={""}>
+                                        <option value={""} disabled>
                                             Pilih Ruang
                                         </option>
                                         {locations.map((location) => (
@@ -141,7 +140,7 @@ export default function DataBahanKimia() {
                                         value={id_factory}
                                         onChange={(e) => setIdFactory(e.target.value)}
                                     >
-                                        <option disabled defaultValue={""}>
+                                        <option value={""} disabled>
                                             Pilih Pabrik
                                         </option>
                                         {factories.map((factory) => (
@@ -162,7 +161,7 @@ export default function DataBahanKimia() {
                                         required
                                         value={characteristic}
                                         onChange={(e) => setCharacteristic(e.target.value)}>
-                                        <option disabled defaultValue={""}>
+                                        <option value={""} disabled>
                                             Pilih Karakteristik
                                         </option>
                                         <option value="Flammable">Flammable</option>

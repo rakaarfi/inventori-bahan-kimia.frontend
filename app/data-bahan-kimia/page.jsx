@@ -40,9 +40,10 @@ export default function page() {
             );
 
             const {
-                data: listData,
-                page,
-                total_pages,
+                data: 
+                    listData,
+                    page,
+                    total_pages,
             } = response.data.list_data_bahan_kimia;
 
             const { characteristics, lokasi_bahan_kimia, data_pabrik_pembuat } = response.data;
@@ -79,7 +80,7 @@ export default function page() {
             <div className="lg:mx-[20rem] mx-[9rem] lg:my-0 my-24">
                 <h1 className="text-2xl font-bold text-center mb-4 whitespace-nowrap">Daftar Data Bahan Kimia</h1>
                 <div className="flex flex-row justify-between items-center">
-                    <Link href="/lokasi-bahan-kimia/add" className="bg-blue-500 text-white px-4 py-2 rounded mx-10 mt-4">
+                    <Link href="/data-bahan-kimia/add" className="bg-blue-500 text-white px-4 py-2 rounded mx-10 mt-4">
                         Input Data Bahan Kimia
                     </Link>
                     <SearchQuery
@@ -98,6 +99,7 @@ export default function page() {
                     onDelete={handleDelete}
                     apiUrl={apiUrl}
                     routeUrl={routeUrl}
+                    currentPage={currentPage}
                 />
                 <Pagination
                     currentPage={currentPage}

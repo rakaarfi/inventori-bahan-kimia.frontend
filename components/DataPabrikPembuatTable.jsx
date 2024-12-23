@@ -3,7 +3,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export default function DataPabrikPembuatTable( { data, error, onUpdate, onDelete, apiUrl }) {
+export default function DataPabrikPembuatTable({
+    data,
+    error,
+    onUpdate,
+    onDelete,
+    apiUrl,
+    routeUrl,
+    currentPage,
+}) {
     return (
         <div className="container mx-auto p-4">
 
@@ -22,12 +30,14 @@ export default function DataPabrikPembuatTable( { data, error, onUpdate, onDelet
                         <tbody>
                             {data.map((item, index) => (
                                 <tr key={item.id}>
-                                    <td className="border px-4 py-2">{index + 1}</td>
+                                    <td className="border-b border-t border-gray-300 px-4 py-2">
+                                        {index + 1 + (currentPage - 1) * 10}
+                                    </td>
                                     <td className="border px-4 py-2">
                                         <form
-                                            onSubmit={(e) => onUpdate(e, item.id, apiUrl)}
+                                            onSubmit={(e) => onUpdate(e, item.id, `${apiUrl}${routeUrl}`)}
                                             className="space-y-2"
-                                            id='update-form'
+                                            id={`update-form-${item.id}`}
                                         >
                                             <input type="text" name="name" defaultValue={item.name} required className="border rounded px-2 py-1 w-full" />
                                             <input type="text" name="address" defaultValue={item.address} required className="border rounded px-2 py-1 w-full" />
@@ -46,13 +56,13 @@ export default function DataPabrikPembuatTable( { data, error, onUpdate, onDelet
                                     <td className="border px-4 py-2">
                                         <button
                                             type="submit"
-                                            form='update-form'
+                                            form={`update-form-${item.id}`}
                                             className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded"
                                         >
                                             Update
                                         </button>
                                         <button
-                                            onClick={() => onDelete(item.id, apiUrl)}
+                                            onClick={() => onDelete(item.id, `${apiUrl}${routeUrl}`)}
                                             className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
                                         >
                                             Delete

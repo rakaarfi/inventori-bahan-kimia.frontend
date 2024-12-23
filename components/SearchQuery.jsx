@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export const SearchQuery = ({ searchQuery, setSearchQuery }) => {
+export const SearchQuery = ({ searchQuery, setSearchQuery, placeHolder }) => {
     const [localSearch, setLocalSearch] = useState(searchQuery);
     const router = useRouter();
 
@@ -22,7 +22,7 @@ export const SearchQuery = ({ searchQuery, setSearchQuery }) => {
                 type="text"
                 value={localSearch}
                 onChange={(e) => setLocalSearch(e.target.value)}
-                placeholder="Cari Lokasi Bahan Kimia..."
+                placeholder={placeHolder}
                 className="border border-gray-300 rounded px-4 py-2 w-[100%]"
             />
             <button

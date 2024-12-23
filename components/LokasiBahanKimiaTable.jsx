@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function LokasiBahanKimiaTable({ 
     data, 
     error, 
@@ -11,6 +9,7 @@ export default function LokasiBahanKimiaTable({
 }) {
     return (
         <div className="container mx-auto p-4">
+            
             {error && <p className="text-red-500">{error}</p>}
 
             <div className="justify-center items-center min-h-screen min-w-screen">

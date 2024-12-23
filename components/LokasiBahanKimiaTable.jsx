@@ -1,6 +1,14 @@
 import React from "react";
 
-export default function LokasiBahanKimiaTable({ data, error, onUpdate, onDelete, apiUrl, routeUrl }) {
+export default function LokasiBahanKimiaTable({ 
+    data, 
+    error, 
+    onUpdate, 
+    onDelete, 
+    apiUrl, 
+    routeUrl,
+    currentPage 
+}) {
     return (
         <div className="container mx-auto p-4">
             {error && <p className="text-red-500">{error}</p>}
@@ -18,7 +26,9 @@ export default function LokasiBahanKimiaTable({ data, error, onUpdate, onDelete,
                         <tbody>
                             {data.map((item, index) => (
                                 <tr key={item.id}>
-                                    <td className="border-b border-t border-gray-300 px-4 py-2">{index + 1}</td>
+                                    <td className="border-b border-t border-gray-300 px-4 py-2">
+                                        {index + 1 + (currentPage - 1) * 10}
+                                    </td>
                                     <td className="border-b border-t border-gray-300 px-4 py-2">
                                         <form
                                             onSubmit={(e) => onUpdate(e, item.id, `${apiUrl}${routeUrl}`)}

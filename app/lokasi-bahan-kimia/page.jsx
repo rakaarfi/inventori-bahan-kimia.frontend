@@ -74,6 +74,7 @@ export default function page() {
                     onDelete={handleDelete}
                     apiUrl={apiUrl}
                     routeUrl={routeUrl}
+                    currentPage={currentPage}
                 />
                 <Pagination
                     currentPage={currentPage}

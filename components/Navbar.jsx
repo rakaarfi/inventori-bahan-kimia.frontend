@@ -3,16 +3,16 @@ import Link from 'next/link';
 export const Navbar = () => {
 
     const input_data = [
-        { name: "Lokasi Bahan Kimia", link: "/lokasi-bahan-kimia/" },
-        { name: "Data Pabrik Pembuat", link: "/data-pabrik-pembuat/" },
-        { name: "Data Bahan Kimia", link: "/data-bahan-kimia/" },
-        { name: "Data Penerimaan Penggunaan", link: "/data-penerimaan-penggunaan/" },
+        { name: "Lokasi Bahan Kimia", link: "/dashboard/lokasi-bahan-kimia/detail/" },
+        { name: "Data Pabrik Pembuat", link: "/dashboard/data-pabrik-pembuat/detail/" },
+        { name: "Data Bahan Kimia", link: "/dashboard/data-bahan-kimia/detail/" },
+        { name: "Data Penerimaan Penggunaan", link: "/dashboard/data-penerimaan-penggunaan/detail/" },
     ]
 
     const preview_report = [
-        "Daftar Bahan Kimia",
-        "Inventori Bahan Kimia",
-        "Data Bahan Kimia"
+        { name: "Daftar Bahan Kimia", link: "/dashboard/report-daftar-bahan-kimia/" },
+        { name: "Inventori Bahan Kimia", link: "/dashboard/report-inventori-bahan-kimia/" },
+        { name: "Data Bahan Kimia", link: "/dashboard/report-data-bahan-kimia/" },
     ]
 
     return (
@@ -39,10 +39,10 @@ export const Navbar = () => {
                         {preview_report.map((item) => {
                             return (
                                 <Link
-                                    key={item}
-                                    href={`#${item}`}
+                                    key={item.link}
+                                    href={item.link}
                                 >
-                                    {item}
+                                    {item.name}
                                 </Link>
                             );
                         })}

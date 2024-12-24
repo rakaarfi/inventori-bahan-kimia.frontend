@@ -92,7 +92,7 @@ export default function DataPenerimaanPenggunaan() {
     
 
     return (
-        <div className="flex justify-center items-center min-h-screen">
+        <div className="flex justify-center items-center min-h-screen ml-56">
             <div className="justify-items-center border rounded-3xl p-4 shadow-lg">
                 <h1 className="text-2xl font-bold text-center mb-4">
                     Data Penerimaan Penggunaan Bahan Kimia
@@ -131,13 +131,13 @@ export default function DataPenerimaanPenggunaan() {
                                 <tr>
                                     <td className="border px-4 py-2 whitespace-nowrap min-w-[150px]">Nama Bahan Kimia</td>
                                     <td className="border px-4 py-2">
-                                        {selectedChemical?.name || "________________"}
+                                        {selectedChemical?.name || "__________"}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td className="border px-4 py-2">Merek Dagang</td>
                                     <td className="border px-4 py-2">
-                                        {selectedChemical?.trade_name || "________________"}
+                                        {selectedChemical?.trade_name || "__________"}
                                     </td>
                                 </tr>
                                 <tr>
@@ -145,7 +145,7 @@ export default function DataPenerimaanPenggunaan() {
                                     <td className="border px-4 py-2">
                                         {selectedChemical
                                             ? `${selectedChemical.max_amount} ${selectedChemical.unit}`
-                                            : "________________"}
+                                            : "__________"}
                                     </td>
                                 </tr>
                             </tbody>
@@ -167,21 +167,21 @@ export default function DataPenerimaanPenggunaan() {
                                     <td className="border px-4 py-2">Ruang</td>
                                     <td className="border px-4 py-2">
                                         {locations.find((loc) => loc.id === selectedChemical?.id_location)?.room ||
-                                            "________________"}
+                                            "__________"}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td className="border px-4 py-2">Lokasi</td>
                                     <td className="border px-4 py-2">
                                         {locations.find((loc) => loc.id === selectedChemical?.id_location)?.location ||
-                                            "________________"}
+                                            "__________"}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td className="border px-4 py-2">Bangunan</td>
                                     <td className="border px-4 py-2">
                                         {locations.find((loc) => loc.id === selectedChemical?.id_location)?.building ||
-                                            "________________"}
+                                            "__________"}
                                     </td>
                                 </tr>
                             </tbody>
@@ -203,7 +203,7 @@ export default function DataPenerimaanPenggunaan() {
                                     <td className="border px-4 py-2 whitespace-nowrap min-w-[150px]">Nama Pabrik Pembuat</td>
                                     <td className="border px-4 py-2">
                                         {factories.find((fac) => fac.id === selectedChemical?.id_factory)?.name ||
-                                            "________________"}
+                                            "__________"}
                                     </td>
                                 </tr>
                             </tbody>

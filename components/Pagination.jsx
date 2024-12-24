@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-const Pagination = ({ currentPage, totalPages, searchQuery }) => {
+const Pagination = ({ currentPage, totalPages, searchQuery, onPageChange }) => {
     const buildQuery = (page) => {
         const params = new URLSearchParams();
         params.set("page", page);
@@ -20,6 +20,10 @@ const Pagination = ({ currentPage, totalPages, searchQuery }) => {
                 key={1}
                 href={buildQuery(1)}
                 className={`px-4 py-2 rounded ${currentPage === 1 ? "bg-blue-500 text-white" : "bg-gray-100"}`}
+                onClick={(e) => {
+                    e.preventDefault();
+                    onPageChange(1);
+                }}
             >
                 1
             </Link>
@@ -40,6 +44,10 @@ const Pagination = ({ currentPage, totalPages, searchQuery }) => {
                 key={i}
                 href={buildQuery(i)}
                 className={`px-4 py-2 rounded ${i === currentPage ? "bg-blue-500 text-white" : "bg-gray-100"}`}
+                onClick={(e) => {
+                    e.preventDefault();
+                    onPageChange(i);
+                }}
             >
                 {i}
             </Link>
@@ -60,6 +68,10 @@ const Pagination = ({ currentPage, totalPages, searchQuery }) => {
                 key={totalPages}
                 href={buildQuery(totalPages)}
                 className={`px-4 py-2 rounded ${currentPage === totalPages ? "bg-blue-500 text-white" : "bg-gray-100"}`}
+                onClick={(e) => {
+                    e.preventDefault();
+                    onPageChange(totalPages);
+                }}
             >
                 {totalPages}
             </Link>
@@ -72,6 +84,10 @@ const Pagination = ({ currentPage, totalPages, searchQuery }) => {
                 <Link
                     href={buildQuery(currentPage - 1)}
                     className="bg-blue-500 text-white px-4 py-2 rounded"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        onPageChange(currentPage - 1);
+                    }}
                 >
                     Previous
                 </Link>
@@ -81,6 +97,10 @@ const Pagination = ({ currentPage, totalPages, searchQuery }) => {
                 <Link
                     href={buildQuery(currentPage + 1)}
                     className="bg-blue-500 text-white px-4 py-2 rounded"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        onPageChange(currentPage + 1);
+                    }}
                 >
                     Next
                 </Link>

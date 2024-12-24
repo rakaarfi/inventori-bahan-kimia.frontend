@@ -19,6 +19,8 @@ export const handleUpdate = async (e, id, url) => {
 };
 
 export const handleDelete = async (id, url) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this data?");
+    if (isConfirmed) {
     try {
         await axios.post(`${url}/delete/${id}`);
         alert("Data deleted successfully!");
@@ -26,6 +28,7 @@ export const handleDelete = async (id, url) => {
     } catch (err) {
         alert("Error deleting data: " + err.message);
     }
+}
 };
 
 export const fetchData = async ({ 
@@ -37,14 +40,11 @@ export const fetchData = async ({
     setData, 
     setCurrentPage, 
     setTotalPages, 
-    setError 
+    setError
 }) => {
     try {
-        const url = `${apiUrl+routeUrl}`;
-
-        const response = await axios.get(
-            `${url}/${responseKey}?page=${currentPage}&search=${search}`
-        );
+        const url = `${apiUrl}${routeUrl}/${responseKey}?page=${currentPage}&search=${search}`;
+        const response = await axios.get(url);
         const { data, page, total_pages } = response.data[responseKey];
 
         setData(data);

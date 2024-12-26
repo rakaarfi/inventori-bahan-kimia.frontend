@@ -1,5 +1,4 @@
-import DataBahanKimia from '@/components/DataBahanKimia'
-import { Navbar } from '@/components/Navbar'
+import DataBahanKimia from '@/components/DataBahanKimia/DataBahanKimia'
 import React from 'react'
 
 export default function page() {

@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { Navbar } from "@/components/Navbar";
-import DataPabrikPembuat from '@/components/DataPabrikPembuat';
+import DataPabrikPembuat from '@/components/DataPabrikPembuat/DataPabrikPembuat';
 
 export default function page() {
     return (

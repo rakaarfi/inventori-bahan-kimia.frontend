@@ -1,14 +1,14 @@
 'use client';
 
 import Link from 'next/link'
-import { Navbar } from '@/components/Navbar'
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import Pagination from '@/components/Pagination'
-import DataPabrikPembuatTable from '@/components/DataPabrikPembuatTable'
 import { SearchQuery } from '@/components/SearchQuery'
-import { fetchData, handleDelete, handleUpdate } from '@/components/HandleAPI'
+import { handleDelete, handleUpdate } from '@/components/dataHandlers'
+import DataPabrikPembuatTable from '@/components/DataPabrikPembuat/DataPabrikPembuatTable'
+import { fetchPaginatedData } from '@/utils/api'
 
 
 export default function page() {
@@ -16,13 +16,12 @@ export default function page() {
     const queryPage = searchParams.get("page") || "1"; // Default ke 1
     const querySearch = searchParams.get("search") || ""; // Default ke ''
 
-    const [error, setError] = useState(null);
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(Number(queryPage));
     const [totalPages, setTotalPages] = useState(0);
     const [search, setSearch] = useState(querySearch);
+    const [error, setError] = useState(null);
 
-    const apiUrl = "http://127.0.0.1:8000/";
     const routeUrl = "data_pabrik_pembuat";
     const responseKey = "list_data_pabrik_pembuat";
 
@@ -32,8 +31,7 @@ export default function page() {
 
     // Fetch data dari API
     useEffect(() => {
-        fetchData({
-            apiUrl,
+        fetchPaginatedData({
             routeUrl,
             responseKey,
             currentPage,
@@ -75,7 +73,6 @@ export default function page() {
                     error={error}
                     onUpdate={handleUpdate}
                     onDelete={handleDelete}
-                    apiUrl={apiUrl}
                     routeUrl={routeUrl}
                     currentPage={currentPage}
                 />

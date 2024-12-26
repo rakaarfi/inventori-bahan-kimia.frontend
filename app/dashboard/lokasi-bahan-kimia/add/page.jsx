@@ -1,6 +1,6 @@
 import React from 'react'
 
-import LokasiBahanKimia from "@/components/LokasiBahanKimia";
+import LokasiBahanKimia from "@/components/LokasiBahanKimia/LokasiBahanKimia";
 
 export default function page() {
   return (

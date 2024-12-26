@@ -6,8 +6,9 @@ import { useEffect, useState } from "react";
 
 import Pagination from "@/components/Pagination";
 import { SearchQuery } from "@/components/SearchQuery";
-import { fetchData, handleDelete, handleUpdate } from "@/components/HandleAPI";
-import LokasiBahanKimiaList from "@/components/LokasiBahanKimiaList";
+import { handleDelete } from "@/components/dataHandlers";
+import LokasiBahanKimiaList from "@/components/LokasiBahanKimia/LokasiBahanKimiaList";
+import { fetchPaginatedData } from "@/utils/api";
 
 
 export default function page() {
@@ -21,7 +22,6 @@ export default function page() {
     const [search, setSearch] = useState(querySearch);
     const [error, setError] = useState(null);
 
-    const apiUrl = "http://127.0.0.1:8000/";
     const routeUrl = "lokasi_bahan_kimia";
     const responseKey = "list_lokasi_bahan_kimia";
 
@@ -31,8 +31,7 @@ export default function page() {
 
     // Fetch data dari API
     useEffect(() => {
-        fetchData({
-            apiUrl,
+        fetchPaginatedData({
             routeUrl,
             responseKey,
             currentPage,
@@ -72,9 +71,7 @@ export default function page() {
                 <LokasiBahanKimiaList
                     data={data}
                     error={error}
-                    onUpdate={handleUpdate}
                     onDelete={handleDelete}
-                    apiUrl={apiUrl}
                     routeUrl={routeUrl}
                     currentPage={currentPage}
                 />

@@ -5,9 +5,10 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import Pagination from "@/components/Pagination";
-import LokasiBahanKimiaTable from "@/components/LokasiBahanKimiaTable";
+import LokasiBahanKimiaTable from "@/components/LokasiBahanKimia/LokasiBahanKimiaTable";
 import { SearchQuery } from "@/components/SearchQuery";
-import { fetchData, handleDelete, handleUpdate } from "@/components/HandleAPI";
+import { handleDelete, handleUpdate } from "@/components/dataHandlers";
+import { fetchPaginatedData } from "@/utils/api";
 
 
 export default function page() {
@@ -21,7 +22,6 @@ export default function page() {
     const [search, setSearch] = useState(querySearch);
     const [error, setError] = useState(null);
 
-    const apiUrl = "http://127.0.0.1:8000/";
     const routeUrl = "lokasi_bahan_kimia";
     const responseKey = "list_lokasi_bahan_kimia";
 
@@ -31,8 +31,7 @@ export default function page() {
 
     // Fetch data dari API
     useEffect(() => {
-        fetchData({
-            apiUrl,
+        fetchPaginatedData({
             routeUrl,
             responseKey,
             currentPage,
@@ -74,7 +73,6 @@ export default function page() {
                     error={error}
                     onUpdate={handleUpdate}
                     onDelete={handleDelete}
-                    apiUrl={apiUrl}
                     routeUrl={routeUrl}
                     currentPage={currentPage}
                 />

@@ -1,11 +1,11 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import LokasiBahanKimiaDetail from "@/components/LokasiBahanKimiaDetail";
+import LokasiBahanKimiaDetail from "@/components/LokasiBahanKimia/LokasiBahanKimiaDetail";
 import Link from "next/link";
-import { handleUpdate, handleDelete } from "@/components/HandleAPI";
+import { handleUpdate } from "@/components/dataHandlers";
+import { readById } from "@/utils/api";
 
 export default function page() {
     const { id } = useParams();
@@ -14,14 +14,13 @@ export default function page() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const apiUrl = "http://127.0.0.1:8000/";
     const routeUrl = "lokasi_bahan_kimia";
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${apiUrl}${routeUrl}/read/${id}`);
-                setData(response.data);
+                const responseData = await readById({ routeUrl, id });
+                setData(responseData);
             } catch (err) {
                 setError("Failed to fetch data");
                 console.error(err);
@@ -29,7 +28,7 @@ export default function page() {
                 setLoading(false);
             }
         };
-        
+
         if (id) {
             fetchData();
         }
@@ -51,7 +50,6 @@ export default function page() {
             <LokasiBahanKimiaDetail
                 data={data}
                 onUpdate={handleUpdate}
-                apiUrl={apiUrl}
                 routeUrl={routeUrl}
             />
         </div>

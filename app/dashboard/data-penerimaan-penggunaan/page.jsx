@@ -1,15 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import axios from "axios";
-// import DataBahanKimiaTable from "@/components/DataBahanKimiaTable";
+import { useState, useEffect, use } from "react";
 import Pagination from "@/components/Pagination";
-import { Navbar } from "@/components/Navbar";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { SearchQuery } from "@/components/SearchQuery";
-import { fetchData, handleDelete, handleUpdate } from "@/components/HandleAPI";
-import DataPenerimaanPenggunaanTable from "@/components/DataPenerimaanPenggunaanTable";
+import { handleDelete, handleUpdate } from "@/components/dataHandlers";
+import DataPenerimaanPenggunaanTable from "@/components/DataPenerimaanPenggunaan/DataPenerimaanPenggunaanTable";
+import { fetchPaginatedData, fetchData } from "@/utils/api";
 
 
 export default function page() {
@@ -24,43 +22,32 @@ export default function page() {
     const [error, setError] = useState(null);
 
     const [chemicalMaterials, setChemicalMaterials] = useState([]);
-    const [transactionsType, setTransactionsType] = useState([]);
 
-    const apiUrl = "http://127.0.0.1:8000/";
     const routeUrl = "data_penerimaan_penggunaan";
     const responseKey = "list_data_penerimaan_penggunaan";
+
+    const transactions_type = ["Penerimaan", "Penggunaan"]
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
 
-    const fetchData = async () => {
-        try {
-            const url = `${apiUrl}${routeUrl}/${responseKey}?page=${currentPage}&search=${search}`;
-            const response = await axios.get(url);
-            const {
-                data: listData,
-                page,
-                total_pages,
-            } = response.data.list_data_penerimaan_penggunaan;
-    
-            const { transactions_type, data_bahan_kimia } = response.data;
-    
-            setData(listData);
-            setCurrentPage(page);
-            setTotalPages(total_pages);
-    
-            // Store additional data in state
-            setChemicalMaterials(data_bahan_kimia.data);
-            setTransactionsType(transactions_type);
-        } catch (err) {
-            setError(err.message);
-        }
-    };
-
     // Fetch data setiap kali currentPage atau search berubah
     useEffect(() => {
-        fetchData();
+        fetchData('data_bahan_kimia').then(response => setChemicalMaterials(response));
+        }, [currentPage, search]);
+
+    useEffect(() => {
+        fetchPaginatedData({
+            routeUrl,
+            responseKey,
+            currentPage,
+            search,
+            setData,
+            setCurrentPage,
+            setTotalPages,
+            setError,
+        });
     }, [currentPage, search]);
 
     // Sinkronisasi query parameter ke URL
@@ -91,11 +78,10 @@ export default function page() {
                 <DataPenerimaanPenggunaanTable
                     data={data}
                     chemicalMaterials={chemicalMaterials}
-                    transactionsType={transactionsType}
+                    transactionsType={transactions_type}
                     error={error}
                     onUpdate={handleUpdate}
                     onDelete={handleDelete}
-                    apiUrl={apiUrl}
                     routeUrl={routeUrl}
                     currentPage={currentPage}
                 />

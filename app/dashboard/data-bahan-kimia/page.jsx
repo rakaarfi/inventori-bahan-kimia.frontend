@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import axios from "axios";
-import DataBahanKimiaTable from "@/components/DataBahanKimiaTable";
+import { useState, useEffect, use } from "react";
+import DataBahanKimiaTable from "@/components/DataBahanKimia/DataBahanKimiaTable";
 import Pagination from "@/components/Pagination";
-import { Navbar } from "@/components/Navbar";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { SearchQuery } from "@/components/SearchQuery";
-import { fetchData, handleDelete, handleUpdate } from "@/components/HandleAPI";
+import { handleDelete, handleUpdate } from "@/components/dataHandlers";
+import { fetchPaginatedData, fetchData } from "@/utils/api";
 
 
 export default function page() {
@@ -22,11 +21,11 @@ export default function page() {
     const [search, setSearch] = useState(querySearch);
     const [error, setError] = useState(null);
 
-    const [characteristics, setCharacteristics] = useState([]);
     const [lokasiBahanKimia, setLokasiBahanKimia] = useState([]);
     const [dataPabrikPembuat, setDataPabrikPembuat] = useState([]);
 
-    const apiUrl = "http://127.0.0.1:8000/";
+    const characteristics = ["Flammable", "Toxic", "Corrosive", "Explosive", "Carcinogen", "Iritating"]
+
     const routeUrl = "data_bahan_kimia";
     const responseKey = "list_data_bahan_kimia";
 
@@ -34,36 +33,26 @@ export default function page() {
         setCurrentPage(page);
     };
 
-    const fetchData = async () => {
-        try {
-            const url = `${apiUrl}${routeUrl}/${responseKey}?page=${currentPage}&search=${search}`;
-            const response = await axios.get(url);
-
-            const {
-                data:
-                listData,
-                page,
-                total_pages,
-            } = response.data.list_data_bahan_kimia;
-
-            const { characteristics, lokasi_bahan_kimia, data_pabrik_pembuat } = response.data;
-
-            setData(listData);
-            setCurrentPage(page);
-            setTotalPages(total_pages);
-
-            // Store additional data in state
-            setCharacteristics(characteristics);
-            setLokasiBahanKimia(lokasi_bahan_kimia.data);
-            setDataPabrikPembuat(data_pabrik_pembuat.data);
-        } catch (err) {
-            setError(err.message);
-        }
-    };
-
     // Fetch data setiap kali currentPage atau search berubah
     useEffect(() => {
-        fetchData();
+        fetchData('lokasi_bahan_kimia').then(response => setLokasiBahanKimia(response));
+    }, [currentPage, search]);
+
+    useEffect(() => {
+        fetchData('data_pabrik_pembuat').then(response => setDataPabrikPembuat(response));
+    }, [currentPage, search]);
+
+    useEffect(() => {
+        fetchPaginatedData({
+            routeUrl,
+            responseKey,
+            currentPage,
+            search,
+            setData,
+            setCurrentPage,
+            setTotalPages,
+            setError,
+        });
     }, [currentPage, search]);
 
     // Sinkronisasi query parameter ke URL
@@ -99,7 +88,6 @@ export default function page() {
                     error={error}
                     onUpdate={handleUpdate}
                     onDelete={handleDelete}
-                    apiUrl={apiUrl}
                     routeUrl={routeUrl}
                     currentPage={currentPage}
                 />

@@ -1,3 +1,5 @@
+import { ButtonDelete } from "../ButtonComponents";
+
 export default function LokasiBahanKimiaTable({ 
     data, 
     error, 
@@ -114,12 +116,7 @@ export default function LokasiBahanKimiaTable({
                                         >
                                             Edit
                                         </button>
-                                        <button
-                                            onClick={() => onDelete(item.id, `${routeUrl}`)}
-                                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
-                                        >
-                                            Delete
-                                        </button>
+                                        <ButtonDelete onClick={() => onDelete(item.id, `${routeUrl}`)} />
                                     </td>
                                 </tr>
                             ))}

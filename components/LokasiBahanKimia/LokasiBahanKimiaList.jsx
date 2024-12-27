@@ -1,5 +1,6 @@
-import Link from 'next/link';
 import React from 'react';
+import TableHeader from './TableHeader';
+import { ButtonDetail, ButtonDelete } from '../ButtonComponents';
 
 export default function LokasiBahanKimiaList({
     data,
@@ -17,21 +18,7 @@ export default function LokasiBahanKimiaList({
                 <div className="border rounded-3xl p-4 shadow-lg">
                     <div className="overflow-x-auto">
                         <table className="table-auto w-full text-xs">
-                            <thead>
-                                <tr>
-                                    <th className="border border-gray-300 px-4 py-2">No</th>
-                                    <th className="border border-gray-300 px-4 py-2">Room</th>
-                                    <th className="border border-gray-300 px-4 py-2">Location</th>
-                                    <th className="border border-gray-300 px-4 py-2">Building</th>
-                                    <th className="border border-gray-300 px-4 py-2">Department Name</th>
-                                    <th className="border border-gray-300 px-4 py-2">Contact Person</th>
-                                    <th className="border border-gray-300 px-4 py-2">Phone</th>
-                                    <th className="border border-gray-300 px-4 py-2">Extension</th>
-                                    <th className="border border-gray-300 px-4 py-2">Mobile</th>
-                                    <th className="border border-gray-300 px-4 py-2">Email</th>
-                                    <th className="border border-gray-300 px-4 py-2">Actions</th>
-                                </tr>
-                            </thead>
+                            <TableHeader />
                             <tbody>
                                 {data.map((item, index) => (
                                     <tr key={item.id}>
@@ -66,18 +53,12 @@ export default function LokasiBahanKimiaList({
                                             {item.email}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-4">
-                                            <Link
-                                                href={`/dashboard/lokasi-bahan-kimia/detail/${item.id}`}
-                                                className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded"
-                                            >
-                                                Detail
-                                            </Link>
-                                            <button
-                                                onClick={() => onDelete(item.id, `${routeUrl}`)}
-                                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded my-2"
-                                            >
-                                                Delete
-                                            </button>
+                                            <ButtonDetail href={`/dashboard/lokasi-bahan-kimia/detail/${item.id}`} />
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-4">
+                                            <ButtonDelete
+                                                onClick={() => onDelete(item.id, routeUrl)}
+                                            />
                                         </td>
                                     </tr>
                                 ))}

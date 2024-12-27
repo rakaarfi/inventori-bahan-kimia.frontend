@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 import Pagination from "@/components/Pagination";
 import { SearchQuery } from "@/components/SearchQuery";
-import { handleDelete } from "@/components/dataHandlers";
+import { handleDelete } from "@/utils/api";
 import LokasiBahanKimiaList from "@/components/LokasiBahanKimia/LokasiBahanKimiaList";
 import { fetchPaginatedData } from "@/utils/api";
 

@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import LokasiBahanKimiaDetail from "@/components/LokasiBahanKimia/LokasiBahanKimiaDetail";
 import Link from "next/link";
-import { handleUpdate } from "@/components/dataHandlers";
+import { handleUpdate } from "@/utils/api";
 import { readById } from "@/utils/api";
 
 export default function page() {

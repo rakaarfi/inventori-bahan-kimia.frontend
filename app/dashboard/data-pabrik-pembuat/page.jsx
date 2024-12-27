@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 import Pagination from '@/components/Pagination'
 import { SearchQuery } from '@/components/SearchQuery'
-import { handleDelete, handleUpdate } from '@/components/dataHandlers'
+import { handleDelete, handleUpdate } from "@/utils/api";
 import DataPabrikPembuatTable from '@/components/DataPabrikPembuat/DataPabrikPembuatTable'
 import { fetchPaginatedData } from '@/utils/api'
 

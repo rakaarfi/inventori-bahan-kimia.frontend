@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { handleUpdate } from "@/components/dataHandlers";
+import { handleUpdate } from "@/utils/api";
 import DataBahanKimiaDetail from "@/components/DataBahanKimia/DataBahanKimiaDetail";
 import { readById } from "@/utils/api";
 

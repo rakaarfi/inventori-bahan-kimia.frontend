@@ -6,8 +6,8 @@ import Pagination from "@/components/Pagination";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { SearchQuery } from "@/components/SearchQuery";
-import { handleDelete, handleUpdate } from "@/components/dataHandlers";
 import { fetchPaginatedData, fetchData } from "@/utils/api";
+import { handleDelete, handleUpdate } from "@/utils/api";
 
 
 export default function page() {

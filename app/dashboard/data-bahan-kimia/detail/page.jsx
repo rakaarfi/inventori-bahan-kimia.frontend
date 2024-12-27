@@ -5,7 +5,7 @@ import Pagination from "@/components/Pagination";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { SearchQuery } from "@/components/SearchQuery";
-import { handleDelete } from "@/components/dataHandlers";
+import { handleDelete } from "@/utils/api";
 import DataBahanKimiaList from "@/components/DataBahanKimia/DataBahanKimiaList";
 import { fetchPaginatedData, fetchData } from "@/utils/api";
 

@@ -31,7 +31,7 @@ export default function DataBahanKimiaList({
                                     <th className="border border-gray-300 px-4 py-2">Jumlah Inventori Maksimal</th>
                                     <th className="border border-gray-300 px-4 py-2">Satuan</th>
                                     <th className="border border-gray-300 px-4 py-2">Keterangan</th>
-                                    <th className="border border-gray-300 px-4 py-2">Actions</th>
+                                    <th className="border border-gray-300 px-4 py-2" colSpan={2}>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,6 +78,8 @@ export default function DataBahanKimiaList({
                                             >
                                                 Detail
                                             </Link>
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-4">
                                             <button
                                                 onClick={() => onDelete(item.id, `${routeUrl}`)}
                                                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded my-2"

@@ -31,7 +31,7 @@ export default function DataPenerimaanPenggunaanList({
                                     <th className="border border-gray-300 px-4 py-2">Jumlah</th>
                                     <th className="border border-gray-300 px-4 py-2">Satuan</th>
                                     <th className="border border-gray-300 px-4 py-2">Deskripsi</th>
-                                    <th className="border border-gray-300 px-4 py-2">Actions</th>
+                                    <th className="border border-gray-300 px-4 py-2" colSpan={2}>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,7 +42,7 @@ export default function DataPenerimaanPenggunaanList({
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2">
                                             {chemicalMaterials.find(
-                                                (chemicalMaterial) => 
+                                                (chemicalMaterial) =>
                                                     chemicalMaterial.id === item.id_chemical_material
                                             )?.name || "Unknown"}
                                         </td>
@@ -68,6 +68,8 @@ export default function DataPenerimaanPenggunaanList({
                                             >
                                                 Detail
                                             </Link>
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-4">
                                             <button
                                                 onClick={() => onDelete(item.id, `${routeUrl}`)}
                                                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded my-2"

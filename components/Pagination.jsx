@@ -19,7 +19,7 @@ const Pagination = ({ currentPage, totalPages, searchQuery, onPageChange }) => {
             <Link
                 key={1}
                 href={buildQuery(1)}
-                className={`px-4 py-2 rounded ${currentPage === 1 ? "bg-blue-500 text-white" : "bg-gray-100"}`}
+                className={`px-4 py-2 rounded ${currentPage === 1 ? "bg-[#4F4789] text-white" : "bg-gray-100"}`}
                 onClick={(e) => {
                     e.preventDefault();
                     onPageChange(1);
@@ -43,7 +43,7 @@ const Pagination = ({ currentPage, totalPages, searchQuery, onPageChange }) => {
             <Link
                 key={i}
                 href={buildQuery(i)}
-                className={`px-4 py-2 rounded ${i === currentPage ? "bg-blue-500 text-white" : "bg-gray-100"}`}
+                className={`px-4 py-2 rounded ${i === currentPage ? "bg-[#4F4789] text-white" : "bg-gray-100"}`}
                 onClick={(e) => {
                     e.preventDefault();
                     onPageChange(i);
@@ -67,7 +67,7 @@ const Pagination = ({ currentPage, totalPages, searchQuery, onPageChange }) => {
             <Link
                 key={totalPages}
                 href={buildQuery(totalPages)}
-                className={`px-4 py-2 rounded ${currentPage === totalPages ? "bg-blue-500 text-white" : "bg-gray-100"}`}
+                className={`px-4 py-2 rounded ${currentPage === totalPages ? "bg-[#4F4789] text-white" : "bg-gray-100"}`}
                 onClick={(e) => {
                     e.preventDefault();
                     onPageChange(totalPages);
@@ -83,7 +83,7 @@ const Pagination = ({ currentPage, totalPages, searchQuery, onPageChange }) => {
             {currentPage > 1 && (
                 <Link
                     href={buildQuery(currentPage - 1)}
-                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                    className="bg-[#4F4789] text-white px-4 py-2 rounded"
                     onClick={(e) => {
                         e.preventDefault();
                         onPageChange(currentPage - 1);
@@ -96,7 +96,7 @@ const Pagination = ({ currentPage, totalPages, searchQuery, onPageChange }) => {
             {currentPage < totalPages && (
                 <Link
                     href={buildQuery(currentPage + 1)}
-                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                    className="bg-[#4F4789] text-white px-4 py-2 rounded"
                     onClick={(e) => {
                         e.preventDefault();
                         onPageChange(currentPage + 1);

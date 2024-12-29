@@ -16,16 +16,17 @@ export const Navbar = () => {
     ]
 
     return (
-        <nav className="dark:bg-[#000000] bg-[#ffffff] p-3 lg:p-6 z-[9999] fixed left-0 rounded-3xl shadow h-[95vh] my-5 mx-5">
+        <nav className="dark:bg-[#12171c] bg-[#ffffff] p-3 lg:p-6 z-[9999] fixed left-0 rounded-3xl shadow h-[95vh] my-5 mx-5">
             <div className="flex flex-col container mx-auto justify-between gap-10">
                 <div className="flex flex-col">
-                    <h1 className='text-xl font-bold border-b'>Input Data</h1>
+                    <h1 className='text-lg font-bold border-b font-jkt'>Input Data</h1>
                     <div className='flex flex-col gap-5 my-1'>
                         {input_data.map((item) => {
                             return (
                                 <Link
                                     key={item.link}
                                     href={item.link}
+                                    className='font-jkt text-sm'
                                 >
                                     {item.name}
                                 </Link>
@@ -34,13 +35,14 @@ export const Navbar = () => {
                     </div>
                 </div>
                 <div className="flex flex-col">
-                    <h1 className='text-xl font-bold border-b'>Preview Report</h1>
+                    <h1 className='text-lg font-bold border-b font-jkt'>Preview Report</h1>
                     <div className='flex flex-col gap-5 my-1'>
                         {preview_report.map((item) => {
                             return (
                                 <Link
                                     key={item.link}
                                     href={item.link}
+                                    className='font-jkt text-sm'
                                 >
                                     {item.name}
                                 </Link>

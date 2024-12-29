@@ -4,8 +4,8 @@ export default function page() {
 
     return (
         <>
-            <div className="lg:ml-[20rem] ml-[9rem] lg:my-0 my-24">
-                <ReportInventoriBahanKimia
+            <div className="lg:ml-[19rem] ml-[9rem] lg:my-0 my-24 mx-5">
+            <ReportInventoriBahanKimia
                 />
             </div>
         </>

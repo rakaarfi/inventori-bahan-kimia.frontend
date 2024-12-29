@@ -1,13 +1,13 @@
 const fields = [
-    { label: "Ruang", name: "room" },
-    { label: "Lokasi", name: "location" },
-    { label: "Bangunan", name: "building" },
-    { label: "Departemen/Bagian", name: "department_name" },
-    { label: "Contact Person", name: "contact_person" },
-    { label: "No Telepon", name: "phone" },
-    { label: "Extension", name: "extension" },
-    { label: "No HP", name: "mobile" },
-    { label: "Email", name: "email" },
+    { label: "Ruang", name: "room", type: "text" },
+    { label: "Lokasi", name: "location", type: "text" },
+    { label: "Bangunan", name: "building", type: "text" },
+    { label: "Departemen/Bagian", name: "department_name", type: "text" },
+    { label: "Contact Person", name: "contact_person", type: "text" },
+    { label: "No Telepon", name: "phone", type: "tel" },
+    { label: "Extension", name: "extension", type: "text" },
+    { label: "No HP", name: "mobile", type: "tel" },
+    { label: "Email", name: "email", type: "email" },
 ];
 
 export default fields;

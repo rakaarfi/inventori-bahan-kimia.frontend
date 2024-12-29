@@ -1,25 +1,17 @@
 import React, { useState } from 'react';
 import LokasiForm from './LokasiForm';
+import Link from 'next/link';
+import { ListButton } from '../ButtonComponents';
 
-export default function LokasiBahanKimiaDetail({ data, onUpdate, routeUrl }) {
-    const [formData, setFormData] = useState({
-        room: data.room || "",
-        location: data.location || "",
-        building: data.building || "",
-        department_name: data.department_name || "",
-        contact_person: data.contact_person || "",
-        phone: data.phone || "",
-        extension: data.extension || "",
-        mobile: data.mobile || "",
-        email: data.email || "",
-    });
+export default function LokasiBahanKimiaDetail({
+    data,
+    onUpdate,
+    routeUrl
+}) {
+    const [formData, setFormData] = useState(data);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = (e) => {
@@ -28,8 +20,15 @@ export default function LokasiBahanKimiaDetail({ data, onUpdate, routeUrl }) {
     };
 
     return (
-        <div className="container mx-auto p-4">
-            <div className="border rounded-3xl p-4 shadow-lg">
+        <div className="container mx-auto p-4 font-jkt">
+            <div className="border rounded-3xl p-4 shadow-lg dark:bg-[#12171c] bg-[#ffffff]">
+                <h1 className="text-2xl font-bold text-center mb-2 whitespace-nowrap">Detail Lokasi Bahan Kimia</h1>
+                <div className="flex flex-row justify-between items-center mb-4">
+                    <ListButton
+                        href="/dashboard/lokasi-bahan-kimia/detail"
+                        text="Daftar Lokasi Bahan Kimia"
+                    />
+                </div>
                 <LokasiForm
                     formData={formData}
                     onChange={handleChange}

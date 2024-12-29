@@ -17,15 +17,36 @@ export default function LokasiForm({
                         <tr key={field.name}>
                             <td className="px-2 py-2">{field.label}:</td>
                             <td className="px-2 py-2">
-                                <input
-                                    type="text"
-                                    id={field.name}
-                                    name={field.name}
-                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#55c0b8] sm:text-sm/6"
-                                    required
-                                    value={formData[field.name]}
-                                    onChange={onChange}
-                                />
+                                {field.type === "text" && (
+                                    <input
+                                        type="text"
+                                        name={field.name}
+                                        value={formData[field.name] || ""}
+                                        onChange={onChange}
+                                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#55c0b8] sm:text-sm/6"
+                                        required
+                                    />
+                                )}
+                                {field.type === "email" && (
+                                    <input
+                                        type="email"
+                                        name={field.name}
+                                        value={formData[field.name] || ""}
+                                        onChange={onChange}
+                                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#55c0b8] sm:text-sm/6"
+                                        required
+                                    />
+                                )}
+                                {field.type === "tel" && (
+                                    <input
+                                        type="tel"
+                                        name={field.name}
+                                        value={formData[field.name] || ""}
+                                        onChange={onChange}
+                                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#55c0b8] sm:text-sm/6"
+                                        required
+                                    />
+                                )}
                             </td>
                         </tr>
                     ))}

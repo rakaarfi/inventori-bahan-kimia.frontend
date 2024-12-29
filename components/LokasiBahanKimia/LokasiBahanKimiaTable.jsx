@@ -100,7 +100,7 @@ export default function LokasiBahanKimiaTable({
                                             />
 
                                             <input
-                                                type="text"
+                                                type="email"
                                                 name="email"
                                                 defaultValue={item.email}
                                                 required

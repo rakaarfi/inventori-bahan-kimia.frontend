@@ -1,22 +1,86 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { SearchQuery } from '../SearchQuery';
+import { fetchData, fetchPaginatedData } from '@/utils/api';
+import { useSearchParams } from 'next/navigation';
+import Pagination from '../Pagination';
+import { ButtonDelete, ButtonDetail, InputButton } from '../ButtonComponents';
 
 export default function DataBahanKimiaList({
-    data,
-    lokasiBahanKimia,
-    dataPabrikPembuat,
-    error,
     onDelete,
-    routeUrl,
-    currentPage,
 }) {
+    const searchParams = useSearchParams();
+    const queryPage = searchParams.get("page") || "1"; // Default ke 1
+    const querySearch = searchParams.get("search") || ""; // Default ke ''
+
+    const [data, setData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(Number(queryPage));
+    const [totalPages, setTotalPages] = useState(0);
+    const [search, setSearch] = useState(querySearch);
+    const [error, setError] = useState(null);
+
+    const [lokasiBahanKimia, setLokasiBahanKimia] = useState([]);
+    const [dataPabrikPembuat, setDataPabrikPembuat] = useState([]);
+
+    const routeUrl = "data_bahan_kimia";
+    const responseKey = "list_data_bahan_kimia";
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    // Fetch data setiap kali currentPage atau search berubah
+    useEffect(() => {
+        fetchData('lokasi_bahan_kimia').then(response => setLokasiBahanKimia(response));
+    }, [currentPage, search]);
+
+    useEffect(() => {
+        fetchData('data_pabrik_pembuat').then(response => setDataPabrikPembuat(response));
+    }, [currentPage, search]);
+
+    useEffect(() => {
+        fetchPaginatedData({
+            routeUrl,
+            responseKey,
+            currentPage,
+            search,
+            setData,
+            setCurrentPage,
+            setTotalPages,
+            setError,
+        });
+    }, [currentPage, search]);
+
+    // Sinkronisasi query parameter ke URL
+    useEffect(() => {
+        const params = new URLSearchParams();
+        params.set("page", currentPage);
+        if (search) {
+            params.set("search", search);
+        }
+        const newUrl = `${window.location.pathname}?${params.toString()}`;
+        window.history.replaceState({}, "", newUrl);
+    }, [currentPage, search]);
+
     return (
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto p-4 font-jkt">
 
             {error && <p className="text-red-500">{error}</p>}
 
             <div className="justify-center items-center min-h-screen min-w-screen">
-                <div className="border rounded-3xl p-4 shadow-lg">
+                <div className="border rounded-3xl p-4 shadow-lg dark:bg-[#12171c] bg-[#ffffff]">
+                    <h1 className="text-2xl font-bold text-center mb-2 whitespace-nowrap">Daftar Data Bahan Kimia</h1>
+                    <div className="flex flex-row justify-between items-center mb-4">
+                        <InputButton
+                            href="/dashboard/data-bahan-kimia/add"
+                            text="Input Data Bahan Kimia"
+                        />
+                        <SearchQuery
+                            searchQuery={search}
+                            setSearchQuery={setSearch}
+                            placeHolder={"Cari Data Bahan Kimia"}
+                        />
+                    </div>
                     <div className="overflow-x-auto">
                         <table className="table-auto w-full text-xs">
                             <thead>
@@ -72,26 +136,24 @@ export default function DataBahanKimiaList({
                                             {item.description}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-4">
-                                            <Link
+                                            <ButtonDetail
                                                 href={`/dashboard/data-bahan-kimia/detail/${item.id}`}
-                                                className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded"
-                                            >
-                                                Detail
-                                            </Link>
+                                            />
                                         </td>
                                         <td className="border border-gray-300 px-4 py-4">
-                                            <button
-                                                onClick={() => onDelete(item.id, `${routeUrl}`)}
-                                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded my-2"
-                                            >
-                                                Delete
-                                            </button>
+                                            <ButtonDelete onClick={() => onDelete(item.id, `${routeUrl}`)} />
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     </div>
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                        searchQuery={search}
+                    />
                 </div>
             </div>
         </div>

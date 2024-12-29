@@ -39,11 +39,9 @@ export const fetchPaginatedData = async ({
     try {
         const url = `${apiUrl}${routeUrl}/${responseKey}?page=${currentPage}&search=${search}`;
         const response = await axios.get(url);
-        const { data, page, total_pages } = response.data[responseKey];
-
-        setData(data);
-        setCurrentPage(page);
-        setTotalPages(total_pages);   
+        setData(response.data.data);
+        setCurrentPage(response.data.current_page);
+        setTotalPages(response.data.total_pages);
         
     } catch (error) {
         console.error("Error fetching data:", error.message);

@@ -27,7 +27,7 @@ export const SearchQuery = ({ searchQuery, setSearchQuery, placeHolder }) => {
             />
             <button
                 type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded mx-10"
+                className="bg-[#4F4789] text-white px-4 py-2 rounded mx-10"
             >
                 Cari
             </button>

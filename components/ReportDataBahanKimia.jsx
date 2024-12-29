@@ -5,6 +5,7 @@ import { SearchQuery } from "./SearchQuery";
 import axios from "axios";
 import Pagination from './Pagination';
 import React, { useState, useEffect } from 'react';
+import { fetchTotalInventory } from "@/utils/api";
 
 export default function ReportDataBahanKimia() {
     const searchParams = useSearchParams();
@@ -16,6 +17,8 @@ export default function ReportDataBahanKimia() {
     const [totalPages, setTotalPages] = useState(0);
     const [search, setSearch] = useState(querySearch);
 
+    const [inventories, setInventories] = useState({});
+
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
@@ -26,8 +29,18 @@ export default function ReportDataBahanKimia() {
             const response = await axios.get(
                 `http://127.0.0.1:8000/reports/report_data_bahan_kimia?page=${page}&search=${search}`
             );
-            setData(response.data.data);
+            const fetchedData = response.data.data;
+
+            setData(fetchedData);
             setTotalPages(response.data.total_pages);
+
+            // Fetch inventory data for all items
+            const inventoriesResult = {};
+            for (const item of fetchedData) {
+                const inventory = await fetchTotalInventory(item.id_bahan_kimia);
+                inventoriesResult[item.id_bahan_kimia] = inventory.total_received - inventory.total_used;
+            }
+            setInventories(inventoriesResult);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -78,13 +91,17 @@ export default function ReportDataBahanKimia() {
                                 <p className="font-semibold text-sm">{item.nama_bahan_kimia}</p>
                                 <p className="font-semibold text-sm">{item.karakteristik}</p>
                                 <p className="font-semibold text-sm">{item.jumlah_inventori_maksimum}</p>
-                                <p className="font-semibold text-sm">XXX</p>
+                                <p className="font-semibold text-sm">
+                                    {inventories[item.id_bahan_kimia] !== undefined
+                                        ? inventories[item.id_bahan_kimia]
+                                        : "Loading..."}
+                                </p>
                             </div>
                         </section>
 
                         {/* Pabrik Pembuat */}
-                        <div className="flex flex-row gap-4">
-                            <section className="flex flex-row gap-4 text-left border border-gray-300 rounded-lg p-4">
+                        <section className="flex flex-col lg:flex-row gap-4 text-left rounded-lg ">
+                            <div className="flex flex-row gap-4 border border-gray-300 rounded-lg p-4 flex-grow basis-1/2">
                                 <div className="flex flex-col gap-4">
                                     <p className="font-semibold text-sm">Nama Pabrik Pembuat</p>
                                     <p className="pl-10 text-sm">Alamat:</p>
@@ -109,8 +126,10 @@ export default function ReportDataBahanKimia() {
                                     <p className="text-sm">{item.mobile_pabrik}</p>
                                     <p className="text-sm">{item.email_pabrik}</p>
                                 </div>
-                            </section>
-                            <section className="flex flex-row gap-4 text-left border border-gray-300 rounded-lg p-4">
+                            </div>
+
+                            {/* Lokasi Penyimpanan */}
+                            <div className="flex flex-row gap-4 border border-gray-300 rounded-lg p-4 flex-grow basis-1/2">
                                 <div className="flex flex-col gap-4">
                                     <p className="font-semibold text-sm">Lokasi Penyimpanan</p>
                                     <p className="pl-10 text-sm">Ruang:</p>
@@ -133,13 +152,10 @@ export default function ReportDataBahanKimia() {
                                     <p className="text-sm ">{item.telepon_lokasi}</p>
                                     <p className="text-sm ">{item.extension_lokasi}</p>
                                     <p className="text-sm ">{item.mobile_lokasi}</p>
-                                    <p className="text-sm ">{item.email_pabrik}</p>
+                                    <p className="text-sm ">{item.email_lokasi}</p>
                                 </div>
-                            </section>
-                        </div>
-
-                        {/* Lokasi Penyimpanan */}
-
+                            </div>
+                        </section>
                     </div>
                 ))
             ) : (
@@ -148,7 +164,8 @@ export default function ReportDataBahanKimia() {
                         <p className="text-lg font-semibold">Data Tidak Ditemukan</p>
                     </section>
                 </div>
-            )}
+            )
+            }
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}

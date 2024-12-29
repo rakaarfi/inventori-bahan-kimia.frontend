@@ -76,7 +76,7 @@ export default function DataPabrikPembuatTable({
                                                 className="border rounded px-2 py-1 w-full"
                                             />
                                             <input
-                                                type="text"
+                                                type="tel"
                                                 name="phone"
                                                 defaultValue={item.phone}
                                                 required
@@ -90,14 +90,14 @@ export default function DataPabrikPembuatTable({
                                                 className="border rounded px-2 py-1 w-full"
                                             />
                                             <input
-                                                type="text"
+                                                type="tel"
                                                 name="mobile"
                                                 defaultValue={item.mobile}
                                                 required
                                                 className="border rounded px-2 py-1 w-full"
                                             />
                                             <input
-                                                type="text"
+                                                type="email"
                                                 name="email"
                                                 defaultValue={item.email}
                                                 required

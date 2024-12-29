@@ -17,7 +17,7 @@ export default function PabrikForm({
                         <tr key={field.name}>
                             <td className="px-4 py-2">{field.label}:</td>
                             <td className="px-4 py-2">
-                                {field.type === "textarea" ? (
+                                {field.type === "textarea" && (
                                     <textarea
                                         name={field.name}
                                         value={formData[field.name] || ""}
@@ -26,9 +26,30 @@ export default function PabrikForm({
                                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#55c0b8] sm:text-sm/6"
                                         required
                                     ></textarea>
-                                ) : (
+                                )} 
+                                {field.type === "text" && (
                                     <input
                                         type="text"
+                                        name={field.name}
+                                        value={formData[field.name] || ""}
+                                        onChange={onChange}
+                                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#55c0b8] sm:text-sm/6"
+                                        required
+                                    />
+                                )}
+                                {field.type === "email" && (
+                                    <input
+                                        type="email"
+                                        name={field.name}
+                                        value={formData[field.name] || ""}
+                                        onChange={onChange}
+                                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#55c0b8] sm:text-sm/6"
+                                        required
+                                    />
+                                )}
+                                {field.type === "tel" && (
+                                    <input
+                                        type="tel"
                                         name={field.name}
                                         value={formData[field.name] || ""}
                                         onChange={onChange}

@@ -7,7 +7,7 @@ export default async function page() {
     const factories = await fetchData('data_pabrik_pembuat');
 
     return (
-        <div className="lg:mx-[20rem] mx-[9rem] lg:my-0 my-24">
+        <div className="lg:ml-[5rem] ml-[9rem] lg:my-0 my-24 mx-5">
             <DataPenerimaanPenggunaan
                 initialChemicalMaterials={chemicals}
                 initialLocations={locations}

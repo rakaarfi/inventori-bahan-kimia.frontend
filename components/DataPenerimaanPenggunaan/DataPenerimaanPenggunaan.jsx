@@ -12,12 +12,14 @@ export default function DataPenerimaanPenggunaan({
     initialLocations,
     initialFactories,
 }) {
-    const [selectedChemical, setSelectedChemical] = useState(null);
     const [chemicalMaterials] = useState(initialChemicalMaterials);
     const [locations] = useState(initialLocations);
     const [factories] = useState(initialFactories);
+
     const [errorMessage, setErrorMessage] = useState("");
     const [remainingAmount, setRemainingAmount] = useState(null);
+    const [selectedChemical, setSelectedChemical] = useState(null);
+    const [currentInventory, setCurrentInventory] = useState(null);
     const [rows, setRows] = useState([
         { date: "", transaction_type: "", amount: "", unit: "", description: "" },
     ]);
@@ -27,13 +29,19 @@ export default function DataPenerimaanPenggunaan({
         setSelectedChemical(chemical);
 
         if (chemical) {
-            const { total_received, total_used } = await fetchTotalInventory(selectedId);
-            const currentInventory = total_received - total_used;
-            setRemainingAmount(chemical.max_amount - currentInventory);
+            try {
+                const { total_received, total_used } = await fetchTotalInventory(selectedId);
+                const currentInventory = total_received - total_used;
+                setCurrentInventory(currentInventory);
+                setRemainingAmount(chemical.max_amount - currentInventory);
+            }
+            catch (error) {
+                console.error('Error fetching total inventory:', error);
+            }
         } else {
+            setCurrentInventory(null);
             setRemainingAmount(null);
         }
-
         setErrorMessage("");
     };
 
@@ -45,24 +53,25 @@ export default function DataPenerimaanPenggunaan({
             return;
         }
 
-        const newTotalReceived = rows
-            .filter((row) => row.transaction_type === "Penerimaan")
-            .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
-
-        if (remainingAmount !== null && newTotalReceived > remainingAmount) {
-            alert(
-                `Harap perbaiki kesalahan sebelum mengirim.\nTotal amount exceeds max amount. ` +
-                `Remaining amount: ${remainingAmount}.`
-            );
-            return;
-        }
-
-        const payload = rows.map((row) => ({
-            ...row,
-            id_chemical_material: selectedChemical.id,
-        }));
-
         try {
+
+            // Perhitungan Total Used dari input pengguna
+            const totalUsedFromInput = rows
+                .filter((row) => row.transaction_type === "Penggunaan")
+                .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
+
+            // Validasi Penggunaan Tidak Melebihi Sisa Inventori
+            if (totalUsedFromInput > currentInventory) {
+                alert(`Total penggunaan (${totalUsedFromInput}) tidak boleh melebihi inventori saat ini (${currentInventory}).`);
+                return;
+            }
+
+            // Kirim Data Jika Valid
+            const payload = rows.map((row) => ({
+                ...row,
+                id_chemical_material: selectedChemical.id,
+            }));
+
             await createTransactions(payload);
             alert("Data berhasil disimpan!");
             setRows([{ date: "", transaction_type: "", amount: "", unit: "", description: "" }]);
@@ -73,9 +82,9 @@ export default function DataPenerimaanPenggunaan({
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen ml-56">
-            <div className="justify-items-center border rounded-3xl p-4 shadow-lg">
-                <h1 className="text-2xl font-bold text-center mb-4">
+        <div className="flex justify-center items-center min-h-screen ml-56 font-jkt text-xs">
+            <div className="justify-items-center border rounded-3xl p-4 shadow-lg dark:bg-[#12171c] bg-[#ffffff]">
+                <h1 className="text-xl font-bold text-center mb-4">
                     Data Penerimaan Penggunaan Bahan Kimia
                 </h1>
                 <DropdownChemical
@@ -94,6 +103,7 @@ export default function DataPenerimaanPenggunaan({
                     setRows={setRows}
                     handleSubmit={handleSubmit}
                     errorMessage={errorMessage}
+                    selectedChemical={selectedChemical}
                 />
             </div>
         </div>

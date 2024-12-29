@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { fetchData } from '@/utils/api';
+import Link from 'next/link';
+import { ListButton } from '../ButtonComponents';
 
 export default function DataPenerimaanPenggunaanDetail({
     data,
@@ -9,53 +11,63 @@ export default function DataPenerimaanPenggunaanDetail({
     onUpdate,
     error
 }) {
+    const [formData, setFormData] = useState(data);
+    const [chemical, setChemical] = useState([]);
 
-    const [dataBahanKimia, setDataBahanKimia] = useState([]);
-    const [loadingBahanKimia, setLoadingBahanKimia] = useState(false);
-
-    // Fungsi untuk mengambil data lokasi bahan kimia
-    const fetchDataBahanKimia = async () => {
-        if (dataBahanKimia.length === 0) {
-            setLoadingBahanKimia(true);
-            try {
-                const response = await fetchData('data_bahan_kimia');
-                setDataBahanKimia(response);
-            } catch (err) {
-                console.error("Failed to fetch data bahan kimia", err);
-            } finally {
-                setLoadingBahanKimia(false);
-            }
+    useEffect(() => {
+        const fetchChemicalMaterials = async () => {
+            const responseData = await fetchData('data_bahan_kimia');
+            setChemical(responseData);
         }
+
+        fetchChemicalMaterials();
+    }, []);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        // Validasi Jumlah
+        if (name === "amount" && parseFloat(value) < 0) {
+            alert("Jumlah tidak boleh negatif.");
+            return;
+        }
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onUpdate(e, formData.id, routeUrl);
     };
 
     if (error) return <p className="text-red-500">{error}</p>;
 
     return (
-        <div className="container mx-auto p-4">
-            <div className="border rounded-3xl p-4 shadow-lg">
+        <div className="container mx-auto p-4 font-jkt">
+            <div className="border rounded-3xl p-4 shadow-lg dark:bg-[#12171c] bg-[#ffffff]">
+                <h1 className="text-2xl font-bold text-center mb-4 whitespace-nowrap">Detail Data Penerimaan Penggunaan</h1>
+                <div className="flex flex-row justify-between items-center mb-4">
+                    <ListButton
+                        href="/dashboard/data-penerimaan-penggunaan/detail"
+                        text="Daftar Data Penerimaan Penggunaan"
+                    />
+                </div>
                 <form
-                    onSubmit={(e) => onUpdate(e, data.id, `${routeUrl}`)}
+                    onSubmit={handleSubmit}
                     className="space-y-2 flex flex-col"
                 >
                     <table className="table-auto w-full text-sm">
                         <tbody>
                             <tr>
-                                <td className="border px-4 py-2 font-bold">Nama Bahan Kimia</td>
-                                <td className="border px-4 py-2">
+                                <td className="px-4 py-2 font-bold">Nama Bahan Kimia</td>
+                                <td className="px-4 py-2">
                                     {/* Dropdown for Nama Bahan Kimia */}
                                     <select
                                         name="id_chemical_material"
-                                        defaultValue={data.id_chemical_material}
+                                        value={formData.id_chemical_material}
                                         required
-                                        className="border border-gray-300 rounded px-2 py-1 mb-1"
-                                        onFocus={fetchDataBahanKimia}
+                                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#55c0b8] sm:text-sm/6"
+                                        onChange={handleChange}
                                     >
-                                        {data.chemical_material_name && (
-                                            <option value={data.id_chemical_material}>
-                                                {data.chemical_material_name}
-                                            </option>
-                                        )}
-                                        {dataBahanKimia.map((chemical) => (
+                                        {chemical && chemical.map((chemical) => (
                                             <option key={chemical.id} value={chemical.id}>
                                                 {chemical.name}
                                             </option>
@@ -64,23 +76,28 @@ export default function DataPenerimaanPenggunaanDetail({
                                 </td>
                             </tr>
                             <tr>
-                                <td className="border px-4 py-2 font-bold">Tanggal</td>
-                                <td className="border px-4 py-2">
+                                <td className="px-4 py-2 font-bold">Tanggal</td>
+                                <td className="px-4 py-2">
                                     <input
                                         id="startDate"
                                         type="date"
                                         name="date"
-                                        defaultValue={data.date}
-                                        className="border border-gray-300 rounded px-2 py-1 w-full"
+                                        value={formData.date}
+                                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#55c0b8] sm:text-sm/6"
+                                        onChange={handleChange}
                                     />
                                 </td>
                             </tr>
                             <tr>
-                                <td className="border px-4 py-2 font-bold">Tipe Transaksi</td>
-                                <td className="border px-4 py-2">
+                                <td className="px-4 py-2 font-bold">Tipe Transaksi</td>
+                                <td className="px-4 py-2">
                                     <select
                                         name="transaction_type"
-                                        defaultValue={data.transaction_type} id="transaction_type"
+                                        onChange={handleChange}
+                                        required
+                                        value={formData.transaction_type}
+                                        id="transaction_type"
+                                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#55c0b8] sm:text-sm/6"
                                     >
                                         <option value={""} disabled>Pilih</option>
                                         <option value="Penerimaan">Penerimaan</option>
@@ -89,25 +106,30 @@ export default function DataPenerimaanPenggunaanDetail({
                                 </td>
                             </tr>
                             <tr>
-                                <td className="border px-4 py-2 font-bold">Jumlah</td>
-                                <td className="border px-4 py-2">
+                                <td className="px-4 py-2 font-bold">Jumlah</td>
+                                <td className="px-4 py-2">
                                     <input
                                         type="number"
                                         step="any"
                                         id="amount"
                                         name="amount"
-                                        defaultValue={data.amount}
-                                        className="border border-gray-300 rounded px-2 py-1 w-full"
+                                        onChange={handleChange}
+                                        value={formData.amount}
+                                        required
+                                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#55c0b8] sm:text-sm/6"
                                     />
                                 </td>
                             </tr>
                             <tr>
-                                <td className="border px-4 py-2 font-bold">Satuan</td>
-                                <td className="border px-4 py-2">
+                                <td className="px-4 py-2 font-bold">Satuan</td>
+                                <td className="px-4 py-2">
                                     <select
                                         name="unit"
                                         id="unit"
-                                        defaultValue={data.unit}
+                                        onChange={handleChange}
+                                        required
+                                        value={formData.unit}
+                                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#55c0b8] sm:text-sm/6"
                                     >
                                         <option value={""} disabled>Pilih</option>
                                         <option value="Gram">Gram</option>
@@ -122,13 +144,15 @@ export default function DataPenerimaanPenggunaanDetail({
                                 </td>
                             </tr>
                             <tr>
-                                <td className="border px-4 py-2 font-bold">Keterangan</td>
-                                <td className="border px-4 py-2">
+                                <td className="px-4 py-2 font-bold">Keterangan</td>
+                                <td className="px-4 py-2">
                                     <input
                                         type="text"
                                         name="description"
-                                        defaultValue={data.description}
-                                        className="border border-gray-300 rounded px-2 py-1 w-full"
+                                        onChange={handleChange}
+                                        required
+                                        value={formData.description}
+                                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#55c0b8] sm:text-sm/6"
                                     />
                                 </td>
                             </tr>
